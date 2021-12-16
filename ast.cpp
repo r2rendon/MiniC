@@ -1161,15 +1161,17 @@ void LogicalOrExpr::genCode(Code &code){
 void AssignExpr::genCode(Code &code){
     Code rightSideCode;
     stringstream ss;
+
     this->expr2->genCode(rightSideCode);
     ss<< rightSideCode.code <<endl;
     string name = ((IdExpr *)this->expr1)->id;
+    
     if(name != ""){
         if(codeGenerationVars.find(name) == codeGenerationVars.end()){
-        if(rightSideCode.type == INT)
-            ss << "sw "<<rightSideCode.place << ", "<<name <<endl;
-        else if(rightSideCode.type == FLOAT)
-            ss << "s.s "<<rightSideCode.place << ", "<<name <<endl;
+            if(rightSideCode.type == INT)
+                ss << "sw "<<rightSideCode.place << ", "<<name <<endl;
+            else if(rightSideCode.type == FLOAT)
+                ss << "s.s "<<rightSideCode.place << ", "<<name <<endl;
         }else{
             if(rightSideCode.type == INT)
                 ss<< "sw "<< rightSideCode.place <<", "<<codeGenerationVars[name]->offset<<"($sp)"<<endl;
@@ -1182,9 +1184,11 @@ void AssignExpr::genCode(Code &code){
         string name = ((ArrayExpr *)this->expr1)->id->id;
         ((ArrayExpr *)this->expr1)->expr->genCode(arrayExpr);
         releaseRegister(arrayExpr.place);
+
         ss << arrayExpr.code<<endl;
         string temp = getIntTemp();
         string address = getIntTemp();
+
         if(codeGenerationVars.find(name) == codeGenerationVars.end()){
             ss<< "li $a0, 4"<<endl
             << "mult $a0, "<< arrayExpr.place<<endl
@@ -1209,6 +1213,7 @@ void AssignExpr::genCode(Code &code){
             ss<< rightSideCode.code <<endl;
             ss<< "sw "<< rightSideCode.place << ", 0("<<temp<<")"<<endl;
         }    
+        
         releaseRegister(temp);     
         releaseRegister(address);     
         releaseRegister(rightSideCode.place);
