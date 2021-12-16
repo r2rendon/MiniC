@@ -1,0 +1,14 @@
+{
+    "files.associations": {
+        "ostream": "cpp",
+        "system_error": "cpp",
+        "iosfwd": "cpp",
+        "__mutex_base": "cpp",
+        "memory": "cpp",
+        "semaphore": "cpp",
+        "stop_token": "cpp",
+        "sstream": "cpp",
+        "filesystem": "cpp",
+        "iostream": "cpp"
+    }
+}
